@@ -10,14 +10,15 @@ import com.example.autosizingform.R
  * Copyright (c) 2019 Cillian Myles. All rights reserved.
  */
 
-class FormAdapter : RecyclerView.Adapter<FormHolder>() {
+class FormAdapter : RecyclerView.Adapter<FormHolder>(), FormListener {
 
     companion object {
-        private const val MIN_SIZE = 1
         private const val EMPTY = ""
+        private const val MIN_SIZE = 1
+        private const val MAX_SIZE = 3
     }
 
-    var list: List<String> = emptyList()
+    private var list: MutableList<String> = emptyList()
 
     override fun getItemCount(): Int = list.size
 
@@ -30,10 +31,52 @@ class FormAdapter : RecyclerView.Adapter<FormHolder>() {
     }
 
     override fun onBindViewHolder(holder: FormHolder, position: Int) {
+        holder.listener = this
+        holder.position = position
         holder.show(list[position])
     }
 
-    private fun emptyList(size: Int = MIN_SIZE): List<String> {
-        return List(size) { EMPTY }
+    override fun onItemCleared(layoutPosition: Int) {
+        if (list.size > MIN_SIZE) {
+            list.removeAt(layoutPosition)
+            notifyItemRemoved(layoutPosition)
+        }
+    }
+
+    override fun onItemRemoved(layoutPosition: Int) {
+        if (list.size > MIN_SIZE) {
+            list.removeAt(layoutPosition)
+            notifyItemRemoved(layoutPosition)
+        }
+    }
+
+    override fun onNewItemNeeded(generatedByPosition: Int) {
+        if (list.size < MAX_SIZE) {
+            val size = list.size
+            val lastPosition = size - 1
+            val newSize = size + 1
+            val newLastPosition = newSize - 1
+            list.add(EMPTY)
+            notifyItemInserted(newLastPosition)
+        }
+    }
+
+    /*
+     * Private / Internal
+     */
+
+    private fun setListImpl(list: MutableList<String>?, maxSize: Int = MAX_SIZE) {
+        this.list =
+                if (list == null || list.isEmpty()) {
+                    emptyList()
+                } else if (list.size > maxSize) {
+                    list.subList(0, maxSize)
+                } else {
+                    list
+                }
+    }
+
+    private fun emptyList(size: Int = MIN_SIZE): MutableList<String> {
+        return MutableList(size) { EMPTY }
     }
 }
