@@ -10,8 +10,8 @@
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/remove"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
@@ -26,6 +26,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:layout_toStartOf="@+id/remove"
         android:layout_toLeftOf="@+id/remove"
         android:inputType="textCapSentences"
