@@ -16,7 +16,9 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:tint="@color/colorSecondaryText"
-        app:srcCompat="@drawable/icon_cancel"/>
+        android:visibility="invisible"
+        app:srcCompat="@drawable/icon_cancel"
+        tools:visibility="visible"/>
 
     <android.support.design.widget.TextInputEditText
         android:id="@+id/input"
