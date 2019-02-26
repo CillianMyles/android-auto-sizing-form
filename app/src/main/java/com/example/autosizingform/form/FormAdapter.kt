@@ -33,7 +33,9 @@ class FormAdapter : RecyclerView.Adapter<FormHolder>(), FormListener {
     override fun onBindViewHolder(holder: FormHolder, position: Int) {
         holder.listener = this
         holder.position = position
+        holder.paused = true
         holder.show(list[position])
+        holder.paused = false
     }
 
     override fun onItemCleared(layoutPosition: Int) {

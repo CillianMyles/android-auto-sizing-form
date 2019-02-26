@@ -14,7 +14,10 @@ class FormHolder(itemView: View) : RecyclerView.ViewHolder(itemView), InputListe
 
     var listener: FormListener? = null
     var position: Int? = null
-    var listening: Boolean = listener != null && position != null
+    var paused: Boolean = true
+
+    private val listening: Boolean
+        get() = !paused && listener != null && position != null
 
     fun show(value: String?) {
         itemView.input.setText(value)
