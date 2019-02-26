@@ -44,19 +44,26 @@ class FormActivity : AppCompatActivity(), FormListener {
 
     override fun onItemCleared(layoutPosition: Int) {
         Log.e(TAG, "onItemCleared - layoutPosition: $layoutPosition") // TODO: remove
+        if (layoutPosition == lastIndex) {
+            return
+        }
         adapter.onItemCleared(layoutPosition)
     }
 
     override fun onItemRemoved(layoutPosition: Int) {
         Log.e(TAG, "onItemRemoved - layoutPosition: $layoutPosition") // TODO: remove
+        if (layoutPosition == lastIndex) {
+            return
+        }
         adapter.onItemRemoved(layoutPosition)
     }
 
     override fun onNewItemNeeded(generatedByPosition: Int) {
         Log.e(TAG, "onNewItemNeeded - generatedByPosition: $generatedByPosition") // TODO: remove
-        if (lastIsNonEmpty()) {
-            adapter.onNewItemNeeded(generatedByPosition)
+        if (isEmpty(lastIndex)) {
+            return
         }
+        adapter.onNewItemNeeded(generatedByPosition)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -89,8 +96,8 @@ class FormActivity : AppCompatActivity(), FormListener {
     private val lastIndex
         get() = size - 1
 
-    private fun lastIsNonEmpty(): Boolean {
-        return isNonEmpty(lastIndex)
+    private fun isEmpty(position: Int): Boolean {
+        return extract(position).isEmpty()
     }
 
     private fun isNonEmpty(position: Int): Boolean {
