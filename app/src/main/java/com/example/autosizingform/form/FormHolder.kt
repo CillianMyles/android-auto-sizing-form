@@ -2,6 +2,7 @@ package com.example.autosizingform.form
 
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import kotlinx.android.synthetic.main.form_list_item.view.input
 
 /**
  * Created by Cillian Myles on 26/02/2019.
@@ -10,4 +11,11 @@ import android.view.View
 
 class FormHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
+    fun show(value: String?) {
+        itemView.input.setText(value)
+    }
+
+    fun extract(): String {
+        return itemView.input.text?.toString() ?: ""
+    }
 }
