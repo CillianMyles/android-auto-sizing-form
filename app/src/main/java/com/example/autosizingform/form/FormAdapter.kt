@@ -35,9 +35,7 @@ class FormAdapter(private val listener: FormListener)
 
     override fun onBindViewHolder(holder: FormHolder, position: Int) {
         holder.listener = listener
-        holder.paused = true // TODO: move this to show method!?
         holder.show(list[position])
-        holder.paused = false
     }
 
     override fun onItemCleared(layoutPosition: Int) {
