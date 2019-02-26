@@ -1,11 +1,9 @@
 package com.example.autosizingform
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import kotlinx.android.synthetic.main.activity_form.fab
 import kotlinx.android.synthetic.main.activity_form.toolbar
 
 class FormActivity : AppCompatActivity() {
@@ -16,10 +14,8 @@ class FormActivity : AppCompatActivity() {
         setContentView(R.layout.activity_form)
         setSupportActionBar(toolbar)
 
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-        }
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
