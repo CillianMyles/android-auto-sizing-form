@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.example.autosizingform.R
+import com.example.autosizingform.form.StringExt.notNullOrEmpty
 import kotlinx.android.synthetic.main.activity_form.toolbar
 import kotlinx.android.synthetic.main.content_form.recycler
 
@@ -17,14 +18,14 @@ import kotlinx.android.synthetic.main.content_form.recycler
  * Copyright (c) 2019 Cillian Myles. All rights reserved.
  */
 
-class FormActivity : AppCompatActivity() {
+class FormActivity : AppCompatActivity(), FormListener {
 
     companion object {
         private val TAG = FormActivity::class.java.simpleName
     }
 
     private val layoutManager by lazy { LinearLayoutManager(this) }
-    private val adapter by lazy { FormAdapter() }
+    private val adapter by lazy { FormAdapter(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +39,23 @@ class FormActivity : AppCompatActivity() {
         recycler.apply {
             layoutManager = this@FormActivity.layoutManager
             adapter = this@FormActivity.adapter
+        }
+    }
+
+    override fun onItemCleared(layoutPosition: Int) {
+        Log.e(TAG, "onItemCleared - layoutPosition: $layoutPosition") // TODO: remove
+        adapter.onItemCleared(layoutPosition)
+    }
+
+    override fun onItemRemoved(layoutPosition: Int) {
+        Log.e(TAG, "onItemRemoved - layoutPosition: $layoutPosition") // TODO: remove
+        adapter.onItemRemoved(layoutPosition)
+    }
+
+    override fun onNewItemNeeded(generatedByPosition: Int) {
+        Log.e(TAG, "onNewItemNeeded - generatedByPosition: $generatedByPosition") // TODO: remove
+        if (lastIsNonEmpty()) {
+            adapter.onNewItemNeeded(generatedByPosition)
         }
     }
 
@@ -64,6 +82,20 @@ class FormActivity : AppCompatActivity() {
     /*
      * Private / Internal
      */
+
+    private val size
+        get() = recycler.childCount
+
+    private val lastIndex
+        get() = size - 1
+
+    private fun lastIsNonEmpty(): Boolean {
+        return isNonEmpty(lastIndex)
+    }
+
+    private fun isNonEmpty(position: Int): Boolean {
+        return extract(position).notNullOrEmpty()
+    }
 
     private fun extract(): List<String> {
         return List(recycler.childCount) { extract(it) }
