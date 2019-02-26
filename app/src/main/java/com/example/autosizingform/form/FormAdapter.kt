@@ -1,6 +1,7 @@
 package com.example.autosizingform.form
 
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.example.autosizingform.R
@@ -14,6 +15,7 @@ import com.example.autosizingform.form.StringExt.notNullOrEmpty
 class FormAdapter : RecyclerView.Adapter<FormHolder>(), FormListener {
 
     companion object {
+        private val TAG = FormAdapter::class.java.simpleName
         private const val EMPTY = ""
         private const val MIN_SIZE = 1
         private const val MAX_SIZE = 3
@@ -39,6 +41,7 @@ class FormAdapter : RecyclerView.Adapter<FormHolder>(), FormListener {
     }
 
     override fun onItemCleared(layoutPosition: Int) {
+        Log.e(TAG, "onItemCleared - layoutPosition: $layoutPosition") // TODO: remove
         if (list.size > MIN_SIZE) {
             list.removeAt(layoutPosition)
             notifyItemRemoved(layoutPosition)
@@ -46,6 +49,7 @@ class FormAdapter : RecyclerView.Adapter<FormHolder>(), FormListener {
     }
 
     override fun onItemRemoved(layoutPosition: Int) {
+        Log.e(TAG, "onItemRemoved - layoutPosition: $layoutPosition") // TODO: remove
         if (list.size > MIN_SIZE) {
             list.removeAt(layoutPosition)
             notifyItemRemoved(layoutPosition)
@@ -53,6 +57,7 @@ class FormAdapter : RecyclerView.Adapter<FormHolder>(), FormListener {
     }
 
     override fun onNewItemNeeded(generatedByPosition: Int) {
+        Log.e(TAG, "onNewItemNeeded - generatedByPosition: $generatedByPosition") // TODO: remove
         val size = list.size
         val lastPosition = size - 1
         if (size < MAX_SIZE /*&& list[lastPosition].notNullOrEmpty()*/) { // TODO: fix check - list does not have up to date values
