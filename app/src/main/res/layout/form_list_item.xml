@@ -28,6 +28,7 @@
         android:layout_alignParentLeft="true"
         android:layout_toStartOf="@+id/remove"
         android:layout_toLeftOf="@+id/remove"
+        android:inputType="textCapSentences"
         tools:text="Example text"/>
 
 </RelativeLayout>

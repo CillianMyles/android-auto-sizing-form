@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.example.autosizingform.R
+import com.example.autosizingform.form.StringExt.notNullOrEmpty
 
 /**
  * Created by Cillian Myles on 26/02/2019.
@@ -32,7 +33,6 @@ class FormAdapter : RecyclerView.Adapter<FormHolder>(), FormListener {
 
     override fun onBindViewHolder(holder: FormHolder, position: Int) {
         holder.listener = this
-        holder.position = position
         holder.paused = true
         holder.show(list[position])
         holder.paused = false
@@ -53,9 +53,9 @@ class FormAdapter : RecyclerView.Adapter<FormHolder>(), FormListener {
     }
 
     override fun onNewItemNeeded(generatedByPosition: Int) {
-        if (list.size < MAX_SIZE) {
-            val size = list.size
-            val lastPosition = size - 1
+        val size = list.size
+        val lastPosition = size - 1
+        if (size < MAX_SIZE /*&& list[lastPosition].notNullOrEmpty()*/) { // TODO: fix check - list does not have up to date values
             val newSize = size + 1
             val newLastPosition = newSize - 1
             list.add(EMPTY)

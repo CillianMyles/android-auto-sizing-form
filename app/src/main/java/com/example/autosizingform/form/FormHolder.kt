@@ -13,11 +13,10 @@ import kotlinx.android.synthetic.main.form_list_item.view.remove
 class FormHolder(itemView: View) : RecyclerView.ViewHolder(itemView), InputListener {
 
     var listener: FormListener? = null
-    var position: Int? = null
     var paused: Boolean = true
 
     private val listening: Boolean
-        get() = !paused && listener != null && position != null
+        get() = !paused && listener != null
 
     fun show(value: String?) {
         itemView.input.setText(value)
@@ -30,14 +29,14 @@ class FormHolder(itemView: View) : RecyclerView.ViewHolder(itemView), InputListe
     override fun onEmpty() {
         itemView.remove.visibility = View.INVISIBLE
         if (listening) {
-            listener!!.onItemCleared(position!!)
+            listener!!.onItemCleared(layoutPosition)
         }
     }
 
     override fun onNonEmpty() {
         itemView.remove.visibility = View.VISIBLE
         if (listening) {
-            listener!!.onNewItemNeeded(position!!)
+            listener!!.onNewItemNeeded(layoutPosition)
         }
     }
 
