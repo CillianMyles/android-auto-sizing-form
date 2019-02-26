@@ -21,6 +21,7 @@ class FormHolder(itemView: View) : RecyclerView.ViewHolder(itemView), InputListe
     init {
         itemView.remove.visibility = View.INVISIBLE
         itemView.input.text = null
+        itemView.remove.setOnClickListener(RemoveListener(this))
         itemView.input.addTextChangedListener(InputWatcher(this))
     }
 
