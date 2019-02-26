@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.form_list_item.view.remove
  * Copyright (c) 2019 Cillian Myles. All rights reserved.
  */
 
-class FormHolder(itemView: View) : RecyclerView.ViewHolder(itemView), InputListener {
+class FormHolder(itemView: View) : RecyclerView.ViewHolder(itemView), InputListener, RemoveListener {
 
     var listener: FormListener? = null
     private var paused: Boolean = true
@@ -21,7 +21,7 @@ class FormHolder(itemView: View) : RecyclerView.ViewHolder(itemView), InputListe
     init {
         itemView.remove.visibility = View.INVISIBLE
         itemView.input.text = null
-        itemView.remove.setOnClickListener(RemoveListener(this))
+        itemView.remove.setOnClickListener(RemoveWatcher(this))
         itemView.input.addTextChangedListener(InputWatcher(this))
     }
 
@@ -47,5 +47,9 @@ class FormHolder(itemView: View) : RecyclerView.ViewHolder(itemView), InputListe
         if (listening) {
             listener!!.onNewItemNeeded(layoutPosition)
         }
+    }
+
+    override fun onRemove() {
+        itemView.input.text = null
     }
 }
