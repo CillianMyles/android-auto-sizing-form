@@ -23,6 +23,9 @@ class FormActivity : AppCompatActivity() {
         private val TAG = FormActivity::class.java.simpleName
     }
 
+    private val layoutManager by lazy { LinearLayoutManager(this) }
+    private val adapter by lazy { FormAdapter() }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -33,8 +36,8 @@ class FormActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         recycler.apply {
-            layoutManager = LinearLayoutManager(this@FormActivity)
-            adapter = FormAdapter()
+            layoutManager = this@FormActivity.layoutManager
+            adapter = this@FormActivity.adapter
         }
     }
 
@@ -46,9 +49,7 @@ class FormActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_save -> {
-                val list = List(recycler.childCount) {
-                    recycler.findViewHolderForLayoutPosition(it) as FormHolder
-                }.map { it.extract() }
+                val list = extract()
                 val printable = list.map { "\"$it\"" }
                 val joined = TextUtils.join(", ", printable)
                 val msg = "Saved: $joined"
@@ -58,5 +59,21 @@ class FormActivity : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    /*
+     * Private / Internal
+     */
+
+    private fun extract(): List<String> {
+        return List(recycler.childCount) { extract(it) }
+    }
+
+    private fun extract(position: Int): String {
+        return holder(position).extract()
+    }
+
+    private fun holder(position: Int): FormHolder {
+        return recycler.findViewHolderForLayoutPosition(position) as FormHolder
     }
 }
