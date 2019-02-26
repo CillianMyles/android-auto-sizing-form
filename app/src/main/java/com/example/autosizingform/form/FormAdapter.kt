@@ -23,6 +23,8 @@ class FormAdapter : RecyclerView.Adapter<FormHolder>(), FormListener {
 
     private var list: MutableList<String> = emptyList()
 
+    private var recycler: RecyclerView? = null // TODO: remove !!
+
     override fun getItemCount(): Int = list.size
 
     override fun onCreateViewHolder(parent: ViewGroup, position: Int): FormHolder {
@@ -40,9 +42,14 @@ class FormAdapter : RecyclerView.Adapter<FormHolder>(), FormListener {
         holder.paused = false
     }
 
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) { // TODO: remove !!
+        super.onAttachedToRecyclerView(recyclerView)
+        recycler = recyclerView
+    }
+
     override fun onItemCleared(layoutPosition: Int) {
         Log.e(TAG, "onItemCleared - layoutPosition: $layoutPosition") // TODO: remove
-        if (list.size > MIN_SIZE) {
+        if (size > MIN_SIZE) {
             list.removeAt(layoutPosition)
             notifyItemRemoved(layoutPosition)
         }
@@ -50,7 +57,7 @@ class FormAdapter : RecyclerView.Adapter<FormHolder>(), FormListener {
 
     override fun onItemRemoved(layoutPosition: Int) {
         Log.e(TAG, "onItemRemoved - layoutPosition: $layoutPosition") // TODO: remove
-        if (list.size > MIN_SIZE) {
+        if (size > MIN_SIZE) {
             list.removeAt(layoutPosition)
             notifyItemRemoved(layoutPosition)
         }
@@ -58,19 +65,23 @@ class FormAdapter : RecyclerView.Adapter<FormHolder>(), FormListener {
 
     override fun onNewItemNeeded(generatedByPosition: Int) {
         Log.e(TAG, "onNewItemNeeded - generatedByPosition: $generatedByPosition") // TODO: remove
-        val size = list.size
-        val lastPosition = size - 1
-        if (size < MAX_SIZE /*&& list[lastPosition].notNullOrEmpty()*/) { // TODO: fix check - list does not have up to date values
+        if (size < MAX_SIZE && lastIsNonEmpty()) { // TODO: fix check - list does not have up to date values
             val newSize = size + 1
-            val newLastPosition = newSize - 1
+            val newLastIndex = newSize - 1
             list.add(EMPTY)
-            notifyItemInserted(newLastPosition)
+            notifyItemInserted(newLastIndex)
         }
     }
 
     /*
      * Private / Internal
      */
+
+    private val size
+        get() = list.size
+
+    private val lastIndex
+        get() = size - 1
 
     private fun setListImpl(list: MutableList<String>?, maxSize: Int = MAX_SIZE) {
         this.list =
@@ -85,5 +96,9 @@ class FormAdapter : RecyclerView.Adapter<FormHolder>(), FormListener {
 
     private fun emptyList(size: Int = MIN_SIZE): MutableList<String> {
         return MutableList(size) { EMPTY }
+    }
+
+    private fun lastIsNonEmpty(): Boolean { // TODO: remove !!
+        return (recycler?.findViewHolderForAdapterPosition(lastIndex) as FormHolder?)?.extract().notNullOrEmpty()
     }
 }
