@@ -8,5 +8,4 @@ package com.example.autosizingform.form
 object StringExt {
 
     fun String?.notNullOrEmpty(): Boolean = this?.isNotEmpty() ?: false
-
 }
