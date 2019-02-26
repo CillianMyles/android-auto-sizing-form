@@ -17,8 +17,8 @@ class FormAdapter(private val listener: FormListener)
     companion object {
         private val TAG = FormAdapter::class.java.simpleName
         private const val EMPTY = ""
-        private const val MIN_SIZE = 1
-        private const val MAX_SIZE = 3
+        private const val MIN_SIZE = FormActivity.MIN_SIZE
+        private const val MAX_SIZE = FormActivity.MAX_SIZE
     }
 
     private var list: MutableList<String> = emptyList()

@@ -22,6 +22,8 @@ class FormActivity : AppCompatActivity(), FormListener {
 
     companion object {
         private val TAG = FormActivity::class.java.simpleName
+        const val MIN_SIZE = 1
+        const val MAX_SIZE = 3
     }
 
     private val layoutManager by lazy { LinearLayoutManager(this) }
@@ -44,26 +46,32 @@ class FormActivity : AppCompatActivity(), FormListener {
 
     override fun onItemCleared(layoutPosition: Int) {
         Log.e(TAG, "onItemCleared - layoutPosition: $layoutPosition") // TODO: remove
-        if (layoutPosition == lastIndex) {
-            return
-        }
-        adapter.onItemCleared(layoutPosition)
+        onItemClearedImpl(layoutPosition)
     }
 
     override fun onItemRemoved(layoutPosition: Int) {
         Log.e(TAG, "onItemRemoved - layoutPosition: $layoutPosition") // TODO: remove
-        if (layoutPosition == lastIndex) {
-            return
-        }
-        adapter.onItemRemoved(layoutPosition)
+        onItemClearedImpl(layoutPosition)
     }
 
     override fun onNewItemNeeded(generatedByPosition: Int) {
         Log.e(TAG, "onNewItemNeeded - generatedByPosition: $generatedByPosition") // TODO: remove
-        if (isEmpty(lastIndex)) {
-            return
-        }
+        if (isEmpty(lastIndex)) return // Don't add any more
         adapter.onNewItemNeeded(generatedByPosition)
+    }
+
+    private fun onItemClearedImpl(layoutPosition: Int) {
+        when {
+            layoutPosition == lastIndex -> {
+                // Don't remove the last one
+            }
+            size == MAX_SIZE -> {
+                // Remove it, add empty at end
+                adapter.onItemCleared(layoutPosition)
+                this.onNewItemNeeded(layoutPosition)
+            }
+            else -> adapter.onItemCleared(layoutPosition)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
