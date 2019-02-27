@@ -2,14 +2,16 @@ package com.example.autosizingform.form
 
 import android.support.v7.widget.RecyclerView
 import android.view.View
-import kotlinx.android.synthetic.main.form_list_item.view.*
+import kotlinx.android.synthetic.main.form_list_item.view.input
+import kotlinx.android.synthetic.main.form_list_item.view.remove
 
 /**
  * Created by Cillian Myles on 26/02/2019.
  * Copyright (c) 2019 Cillian Myles. All rights reserved.
  */
 
-class FormHolder(itemView: View) : RecyclerView.ViewHolder(itemView), InputListener, RemoveListener {
+class FormHolder(itemView: View)
+    : RecyclerView.ViewHolder(itemView), InputListener, RemoveListener {
 
     var listener: FormListener? = null
     private var paused: Boolean = true

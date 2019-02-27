@@ -1,9 +1,12 @@
+@file:Suppress("ConstantConditionIf")
+
 package com.example.autosizingform.form
 
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.example.autosizingform.Application
 import com.example.autosizingform.R
 
 /**
@@ -39,7 +42,7 @@ class FormAdapter(private val listener: FormListener)
     }
 
     override fun onItemCleared(layoutPosition: Int) {
-        Log.e(TAG, "onItemCleared - layoutPosition: $layoutPosition") // TODO: remove
+        if (Application.DEBUG) Log.d(TAG, "onItemCleared - layoutPosition: $layoutPosition")
         if (size > MIN_SIZE) {
             list.removeAt(layoutPosition)
             notifyItemRemoved(layoutPosition)
@@ -47,7 +50,7 @@ class FormAdapter(private val listener: FormListener)
     }
 
     override fun onItemRemoved(layoutPosition: Int) {
-        Log.e(TAG, "onItemRemoved - layoutPosition: $layoutPosition") // TODO: remove
+        if (Application.DEBUG) Log.d(TAG, "onItemRemoved - layoutPosition: $layoutPosition")
         if (size > MIN_SIZE) {
             list.removeAt(layoutPosition)
             notifyItemRemoved(layoutPosition)
@@ -55,7 +58,7 @@ class FormAdapter(private val listener: FormListener)
     }
 
     override fun onNewItemNeeded(generatedByPosition: Int) {
-        Log.e(TAG, "onNewItemNeeded - generatedByPosition: $generatedByPosition") // TODO: remove
+        if (Application.DEBUG) Log.d(TAG, "onNewItemNeeded - generatedByPosition: $generatedByPosition")
         if (size < MAX_SIZE) {
             val newSize = size + 1
             val newLastIndex = newSize - 1

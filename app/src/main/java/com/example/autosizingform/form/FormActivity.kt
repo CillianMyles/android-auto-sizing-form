@@ -1,3 +1,5 @@
+@file:Suppress("ConstantConditionIf")
+
 package com.example.autosizingform.form
 
 import android.os.Bundle
@@ -8,10 +10,11 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import com.example.autosizingform.Application
 import com.example.autosizingform.R
 import com.example.autosizingform.form.StringExt.notNullOrEmpty
-import kotlinx.android.synthetic.main.activity_form.*
-import kotlinx.android.synthetic.main.content_form.*
+import kotlinx.android.synthetic.main.activity_form.toolbar
+import kotlinx.android.synthetic.main.content_form.recycler
 
 /**
  * Created by Cillian Myles on 25/02/2019.
@@ -45,17 +48,17 @@ class FormActivity : AppCompatActivity(), FormListener {
     }
 
     override fun onItemCleared(layoutPosition: Int) {
-        Log.e(TAG, "onItemCleared - layoutPosition: $layoutPosition") // TODO: remove
+        if (Application.DEBUG) Log.d(TAG, "onItemCleared - layoutPosition: $layoutPosition")
         onItemClearedImpl(layoutPosition)
     }
 
     override fun onItemRemoved(layoutPosition: Int) {
-        Log.e(TAG, "onItemRemoved - layoutPosition: $layoutPosition") // TODO: remove
+        if (Application.DEBUG) Log.d(TAG, "onItemRemoved - layoutPosition: $layoutPosition")
         onItemClearedImpl(layoutPosition)
     }
 
     override fun onNewItemNeeded(generatedByPosition: Int) {
-        Log.e(TAG, "onNewItemNeeded - generatedByPosition: $generatedByPosition") // TODO: remove
+        if (Application.DEBUG) Log.d(TAG, "onNewItemNeeded - generatedByPosition: $generatedByPosition")
         if (isEmpty(lastIndex)) return // Don't add any more
         adapter.onNewItemNeeded(generatedByPosition)
     }
@@ -90,7 +93,7 @@ class FormActivity : AppCompatActivity(), FormListener {
                 val printable = list.map { "\"$it\"" }
                 val joined = TextUtils.join(", ", printable)
                 val msg = "Saved: $joined"
-                Log.d(TAG, msg)
+                Log.i(TAG, msg)
                 Snackbar.make(recycler, msg, Snackbar.LENGTH_LONG).show()
                 true
             }
