@@ -10,8 +10,8 @@ import android.view.Menu
 import android.view.MenuItem
 import com.example.autosizingform.R
 import com.example.autosizingform.form.StringExt.notNullOrEmpty
-import kotlinx.android.synthetic.main.activity_form.toolbar
-import kotlinx.android.synthetic.main.content_form.recycler
+import kotlinx.android.synthetic.main.activity_form.*
+import kotlinx.android.synthetic.main.content_form.*
 
 /**
  * Created by Cillian Myles on 25/02/2019.
@@ -62,11 +62,11 @@ class FormActivity : AppCompatActivity(), FormListener {
 
     private fun onItemClearedImpl(layoutPosition: Int) {
         when {
-            layoutPosition == lastIndex -> {
+            layoutPosition == lastIndex -> { // Last one
                 // Don't remove the last one
             }
-            size == MAX_SIZE -> {
-                // Remove it, add empty at end
+            size == MAX_SIZE -> { // All spots full
+                // Remove current, add empty at end
                 adapter.onItemCleared(layoutPosition)
                 this.onNewItemNeeded(layoutPosition)
             }
