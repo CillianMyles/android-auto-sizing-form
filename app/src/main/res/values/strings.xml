@@ -4,6 +4,7 @@
     <string name="action_save">Save</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_form">FormActivity</string>
-    <string name="msg_main_list_empty">Add an entry to get started!</string>
+    <string name="msg_main_list_empty">Add an entry to get started -></string>
+    <string name="max_form_fields">Max form fields:</string>
 
 </resources>
