@@ -90,7 +90,7 @@ class FormActivity : AppCompatActivity(), FormListener {
         return when (item.itemId) {
             R.id.action_save -> {
                 val list = extract()
-                val printable = list.map { "\"$it\"" }
+                val printable = list.filter { it.isNotEmpty() }.map { "\"$it\"" }
                 val joined = TextUtils.join(", ", printable)
                 val msg = "Saved: $joined"
                 Log.i(TAG, msg)
