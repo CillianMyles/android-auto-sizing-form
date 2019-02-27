@@ -2,8 +2,7 @@ package com.example.autosizingform.form
 
 import android.support.v7.widget.RecyclerView
 import android.view.View
-import kotlinx.android.synthetic.main.form_list_item.view.input
-import kotlinx.android.synthetic.main.form_list_item.view.remove
+import kotlinx.android.synthetic.main.form_list_item.view.*
 
 /**
  * Created by Cillian Myles on 26/02/2019.
@@ -26,9 +25,9 @@ class FormHolder(itemView: View) : RecyclerView.ViewHolder(itemView), InputListe
     }
 
     fun show(value: String?) {
-        paused = true
+        paused = true // Don't want to trigger listeners
         itemView.input.setText(value)
-        paused = false
+        paused = false // But we want user behaviour to
     }
 
     fun extract(): String {

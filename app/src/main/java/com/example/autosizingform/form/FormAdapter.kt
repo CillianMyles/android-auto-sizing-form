@@ -21,7 +21,7 @@ class FormAdapter(private val listener: FormListener)
         private const val MAX_SIZE = FormActivity.MAX_SIZE
     }
 
-    private var list: MutableList<String> = emptyList()
+    private var list: MutableList<String> = listOfEmpties()
 
     override fun getItemCount(): Int = list.size
 
@@ -77,7 +77,7 @@ class FormAdapter(private val listener: FormListener)
     private fun setListImpl(list: MutableList<String>?, maxSize: Int = MAX_SIZE) {
         this.list =
                 if (list == null || list.isEmpty()) {
-                    emptyList()
+                    listOfEmpties()
                 } else if (list.size > maxSize) {
                     list.subList(0, maxSize)
                 } else {
@@ -85,7 +85,7 @@ class FormAdapter(private val listener: FormListener)
                 }
     }
 
-    private fun emptyList(size: Int = MIN_SIZE): MutableList<String> {
+    private fun listOfEmpties(size: Int = MIN_SIZE): MutableList<String> {
         return MutableList(size) { EMPTY }
     }
 }
