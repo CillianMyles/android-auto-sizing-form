@@ -65,6 +65,10 @@ class FormActivity : AppCompatActivity(), FormListener {
             layoutPosition == lastIndex -> { // Last one
                 // Don't remove the last one
             }
+            layoutPosition < lastIndex && isEmpty(layoutPosition + 1) -> { // Empty one below
+                // Remove empty below one instead
+                adapter.onItemCleared(layoutPosition + 1)
+            }
             size == MAX_SIZE -> { // All spots full
                 // Remove current, add empty at end
                 adapter.onItemCleared(layoutPosition)
